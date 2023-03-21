@@ -1,3 +1,5 @@
+package com.example.viewmodel1
+
 sealed class Response<out T>{
     object Loading : Response<Nothing>()
     data class Success<T>(val code : Int, val body : T?) : Response<T>()
