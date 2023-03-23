@@ -10,6 +10,12 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+sealed class Response<out T>{
+    object Loading : Response<Nothing>()
+    data class Success<T>(val code : Int, val body : T?) : Response<T>()
+    data class Error(val code : Int, val message: String) : Response<Nothing>()
+}
+
 class MainViewModel(private val dogApiService: DogApiService) : ViewModel() {
 
     private var _dogImage = MutableLiveData<Response<Data>>()
@@ -40,4 +46,6 @@ class MainViewModel(private val dogApiService: DogApiService) : ViewModel() {
             }
         }
     }
-}
+
+
+}//fai una funzione per l'error gestisci gli eventi dentro il viewmodel

@@ -35,5 +35,5 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.dog.visibility = View.VISIBLE
-    }
+    }//fun show loading //fun stoploading in success (in main activity)
 }
