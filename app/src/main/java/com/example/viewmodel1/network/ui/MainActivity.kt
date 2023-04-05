@@ -1,11 +1,15 @@
-package com.example.viewmodel1
+package com.example.viewmodel1.network.ui
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
+import com.example.viewmodel1.viewmodel.MainViewModel
+import com.example.viewmodel1.viewmodel.Response
 import com.example.viewmodel1.databinding.ActivityMainBinding
+import com.example.viewmodel1.network.dto.Data
+import com.example.viewmodel1.network.MyApplication
 import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         val viewModel = (application as MyApplication).mainViewModelFactory.create(MainViewModel::class.java) //?
 
 
-        viewModel.getDogImageNetworkCall(binding.dog)
+        viewModel.getDogImageNetworkCall()
 
         viewModel.dogImage.observe(this) { dogImage ->
             when (dogImage) {

@@ -1,12 +1,13 @@
-package com.example.viewmodel1
+package com.example.viewmodel1.network
 
 import android.app.Application
 import android.util.Log
+import com.example.viewmodel1.viewmodel.MainViewModelFactory
 
 class MyApplication : Application() {
 
     private val apiProvider = ApiProvider()
-    val mainViewModelFactory = MainViewModelFactory(apiProvider.provider())
+    val mainViewModelFactory = MainViewModelFactory(apiProvider)
 
 
     override fun onCreate() {

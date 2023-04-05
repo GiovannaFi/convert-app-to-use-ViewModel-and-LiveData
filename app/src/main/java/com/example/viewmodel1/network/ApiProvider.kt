@@ -1,4 +1,4 @@
-package com.example.viewmodel1
+package com.example.viewmodel1.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,6 +11,7 @@ class ApiProvider {
 
     private val dogApiService = retrofit.create(DogApiService::class.java)
 
-    fun provider(): DogApiService = dogApiService
+    //fun provider(): DogApiService = dogApiService
+    suspend fun getDogData() = dogApiService.getRandomDogImage()
 
 }
