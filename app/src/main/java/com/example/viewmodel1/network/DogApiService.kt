@@ -1,5 +1,6 @@
-package com.example.viewmodel1
+package com.example.viewmodel1.network
 
+import com.example.viewmodel1.network.dto.Data
 import retrofit2.Response
 import retrofit2.http.GET
 

@@ -1,40 +1,32 @@
-package com.example.viewmodel1.ui.main
+package com.example.viewmodel1.viewmodel
 
-import Response
 import android.util.Log
-import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.viewmodel1.Data
-import com.example.viewmodel1.DogApiService
+import com.example.viewmodel1.network.ApiProvider
+import com.example.viewmodel1.network.dto.Data
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class MainViewModel : ViewModel() {
+sealed class Response<out T>{
+    object Loading : Response<Nothing>()
+    data class Success<T>(val code : Int, val body : T?) : Response<T>()
+    data class Error(val code : Int, val message: String) : Response<Nothing>()
+}
+
+class MainViewModel(private val dogApiProvider: ApiProvider) : ViewModel() {
 
     private var _dogImage = MutableLiveData<Response<Data>>()
     val dogImage: LiveData<Response<Data>>
         get() = _dogImage
 
-    private var dogApiService: DogApiService
 
-    init {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://dog.ceo/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        dogApiService = retrofit.create(DogApiService::class.java)
-    }
-
-    fun getDogImageNetworkCall(dog: ImageView) {
+    fun getDogImageNetworkCall() {
         _dogImage.postValue(Response.Loading) //postvalue è =
         viewModelScope.launch {
             try {
-                val response = dogApiService.getRandomDogImage()
+                val response = dogApiProvider.getDogData()
                 if (response.isSuccessful) {
                     val dogImage = response.body()
                     _dogImage.postValue(Response.Success(response.code(), dogImage))
@@ -42,7 +34,10 @@ class MainViewModel : ViewModel() {
 
                 } else {
                     _dogImage.postValue(Response.Error(response.code(), response.message()))
-                    Log.e("MainViewModel", "Response not successful: ${response.code()}")
+                    Log.e(
+                        "MainViewModel",
+                        "com.example.viewmodel1.ui.main.Response not successful: ${response.code()}"
+                    )
                 }
             } catch (e: Exception) {
                 _dogImage.postValue(Response.Error(500, "ci sono problemi"))
@@ -50,4 +45,6 @@ class MainViewModel : ViewModel() {
             }
         }
     }
+
+
 }
