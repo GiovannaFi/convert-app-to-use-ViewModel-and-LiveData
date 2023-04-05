@@ -1,4 +1,4 @@
-package com.example.viewmodel1.network.ui
+package com.example.viewmodel1.ui
 
 import android.os.Bundle
 import android.view.View
